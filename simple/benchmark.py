@@ -1,15 +1,10 @@
-from locust import HttpLocust, TaskSet
+from locust import HttpUser, task, between
+
+class QuickstartUser(HttpUser):
+    wait_time = between(1, 2)
+
+    @task
+    def hello_world(self):
+        self.client.get("/")
 
 
-def index(l):
-    l.client.get("/1234")
-
-
-class UserBehavior(TaskSet):
-    tasks = [index]
-
-
-class WebsiteUser(HttpLocust):
-    task_set = UserBehavior
-    min_wait = 5000
-    max_wait = 9000
